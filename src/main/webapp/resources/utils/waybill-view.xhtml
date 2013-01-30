@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:composite="http://java.sun.com/jsf/composite">
+<h:head><h:title></h:title></h:head>
+<h:body>
+<composite:interface>
+	<composite:attribute name="wayBillToView" required="true"/>
+</composite:interface>
+
+<composite:implementation>
+	<p:dialog id="dialog_WB_view" widgetVar="viewWayBill" dynamic="true" header="Накладная № #{cc.attrs.wayBillToView.title}" 
+													resizable="false">
+	<h:form>
+	<p:panelGrid id="wayBillGrid">
+		<p:row>
+			<p:column> <h:outputText value = "Отправитель"/> </p:column>
+			<p:column> <h:outputText id="sender" value = "№  #{view_WayBill.kod}"/> </p:column>
+			<p:column colspan="2"> <h:outputText value ="Описание отправления"/> </p:column>
+		</p:row>
+		<p:row>
+			<p:column> <h:outputText value = "Ф.И.О   #{view_WayBill.fio}"/></p:column>
+			<p:column> <h:outputText value = "Тел.  #{view_WayBill.phone}"/> </p:column>
+			
+			<p:column> <h:outputText value="Общий вес"/> </p:column>
+			<p:column> <h:outputText value="Кол-во мест"/> </p:column>		
+		</p:row> 
+		<p:row>
+			<p:column colspan = "2"> <h:outputText value = "Компания:  #{cc.attrs.wayBillToView.company}"/></p:column>
+			<p:column> <h:outputText id ="weight" value="#{cc.attrs.wayBillToView.weight}"/> </p:column>
+			<p:column> <h:outputText id = "counts" value="#{cc.attrs.wayBillToView.counts}" /> </p:column>
+		</p:row>
+		<p:row>
+			<p:column colspan="4"> <h:outputText value ="Адрес:  #{cc.attrs.wayBillToView.address}"/></p:column>
+		</p:row>
+	</p:panelGrid>
+	</h:form>
+	</p:dialog>
+</composite:implementation>
+</h:body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:composite="http://java.sun.com/jsf/composite">
+<h:head>
+	<title>Добавление накладной</title>
+	<link href="./css/styles.css" rel="stylesheet" type="text/css"/>
+</h:head>
+<h:body>
+	<composite:interface>
+		<composite:attribute name="manifestId"/>
+		<composite:attribute name="cityId"/>
+		<composite:attribute name="routingsheet"/>
+	</composite:interface>
+	
+	<composite:implementation>
+		
+	<p:dialog id="dialog_WB_add" modal = "true" widgetVar="addWayBill" dynamic="true" header="Добавление накладной" 
+										resizable="false" appendToBody="true">
+	<h:form id="userListForm">
+	<p:growl id="growl" showDetail="false"/>
+	<h:panelGrid columns = "2">
+		<p:outputLabel for="title" value = "Номер:"/>
+		<p:inputText value = "#{view_RoutingSheet.wb.title}" id="title" required="true" requiredMessage="Не введет номер накладной">
+			<p:ajax event="blur" update="@form"/>
+		</p:inputText>
+		<p:outputLabel for="company" value ="Организация:" />
+		<p:inputText value = "#{view_RoutingSheet.wb.recipient.company}" 	id="company">
+			<p:ajax event="blur"/>
+		</p:inputText> 
+		<p:outputLabel for="fio" value = "Контактное лицо:" />
+		<p:inputText value = "#{view_RoutingSheet.wb.recipient_fio}" id = "fio"/>
+					
+		<p:outputLabel for ="address" value = "Адрес:"/>
+		<p:inputText id="address" value ="#{view_RoutingSheet.wb.recipient.address}"/>
+	
+		<p:outputLabel for ="phone" value ="Телефон: "/>
+		<p:inputText id="phone" value = "#{view_RoutingSheet.wb.recipient.phone}"/>
+	
+		<p:outputLabel for="count" value  = "Кол-во мест:"></p:outputLabel>
+		<p:inputText id = "count" value ="#{view_RoutingSheet.wb.counts}"/>
+		
+		<p:outputLabel for="weight" value  = "Общий вес:"></p:outputLabel>
+		<p:inputText id = "weight" value ="#{view_RoutingSheet.wb.weight}"/>
+	</h:panelGrid>
+	<p:commandButton value="Отмена" type="reset" immediate="true" onclick="addWayBill.hide()"  update=":dialog_WB_add"/>
+	<p:commandButton value="Добавить" actionListener="#{view_RoutingSheet.addNewWayBill}"  oncomplete="addWayBill.hide()" update=":mainForm:tblRs"/>																 
+
+	</h:form>
+	</p:dialog> 
+	</composite:implementation>
+</h:body>
+</html>

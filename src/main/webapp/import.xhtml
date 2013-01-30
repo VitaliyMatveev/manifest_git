@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Импорт данных из Меги</title>
+	<link href="resources/css/styles.css" rel="stylesheet" type="text/css"/>
+</h:head>
+<h:body>
+	
+	<p:layout fullPage="true">
+		<p:layoutUnit position="north">
+		<h:form>
+			<p:panelGrid>
+				<p:row>
+					<p:column><p:outputLabel for = "date" value="Выберите диапозон дат"/></p:column>
+					<p:column><p:calendar id="date" value="#{view_Import.startDate}"/></p:column>
+					<p:column><p:calendar id="date2" value = "#{view_Import.endDate}"/></p:column>
+					<p:column> <p:commandButton value="Импорт" actionListener="#{view_Import.onImport}" update=":table"/></p:column>
+					
+					<p:column rowspan="2"> <p:commandButton value="Остановить" actionListener="#{view_Import.onStop}"/></p:column>
+					<p:column rowspan="2"> <p:commandButton value="Сохранить" actionListener="#{view_Import.onSaveToBase}"/></p:column>
+				</p:row>
+				<p:row>
+					<p:column><p:outputLabel for="number" value="Обновление"/></p:column>
+					<p:column> <p:commandButton value="Тест" actionListener="#{view_Import.onTest}"/></p:column>
+					<p:column><p:inputText id="number" value="#{view_Import.nmbr}"/></p:column>
+					<p:column><p:commandButton value = "Обновить" actionListener="#{view_Import.onUpdate}"/> </p:column>
+				</p:row>
+			</p:panelGrid>
+		</h:form>
+		</p:layoutUnit>
+		<p:layoutUnit position="center">
+			<p:dataTable var="tbl" id="table" value="#{view_Import.data}">
+				<p:ajax event="rowToggle" listener="#{view_Import.onToggle}"/>
+				<p:columnGroup type="header">
+					<p:row>
+						<p:column rowspan="2" headerText=""/>
+						<p:column rowspan="2" headerText="Номер накладной"/>
+						<p:column rowspan="2" headerText="Статус"/>
+						<p:column rowspan="2" headerText="Fedex"/>
+						<p:column rowspan="2" headerText="Клиент"/>
+						<p:column rowspan="2" headerText="Код"/>
+						<p:column colspan="8" headerText="Отправитель"/>
+						<p:column colspan="8" headerText="Получатель"/>
+						<p:column rowspan="2" headerText="Вес"/>
+						<p:column rowspan="2" headerText="Объём"/>
+						<p:column rowspan="2" headerText="Кол-во"/>
+						<p:column rowspan="2" headerText="Сумма"/>
+						<p:column rowspan="2" headerText="Тип оплаты"/>
+						<p:column rowspan="2" headerText="Платильщик"/>
+						<p:column rowspan="2" headerText="Дата"/>
+						<p:column rowspan="2" headerText="Время"/>
+						<p:column rowspan="2" headerText="Создал"/>
+						<p:column rowspan="2" headerText="Комментарий"/>
+					</p:row>
+					<p:row>
+						<p:column headerText="Наименование"/>
+						<p:column headerText="Контактное лицо"/>
+						<p:column headerText="Телефон"/>
+						<p:column headerText="Компания"/>
+						<p:column headerText="Страна"/>
+						<p:column headerText="Город"/>
+						<p:column headerText="Агент"/>
+						<p:column headerText="Адрес"/>
+						<p:column headerText="Наименование"/>
+						<p:column headerText="Контактное лицо"/>
+						<p:column headerText="Телефон"/>
+						<p:column headerText="Компания"/>
+						<p:column headerText="Страна"/>
+						<p:column headerText="Город"/>
+						<p:column headerText="Агент"/>
+						<p:column headerText="Адрес"/>
+					</p:row>
+				</p:columnGroup>
+				<p:column>	
+					<p:rowToggler/>
+				</p:column>
+				<p:column>
+					#{tbl.title}
+				</p:column>
+				<p:column>
+					#{tbl.fedex}
+				</p:column>
+				<p:column>
+					#{tbl.sender_fio}
+				</p:column>
+				<p:column>
+					#{tbl.sender.company}
+				</p:column>
+				<p:column>
+					#{tbl.recipient_fio}
+				</p:column>
+				<p:column>
+					#{tbl.recipient.company}
+				</p:column>
+				<p:column>
+					#{tbl.weight}
+				</p:column>
+				<p:column>
+					#{tbl.volume}
+				</p:column>
+				<p:column>
+					#{tbl.counts}
+				</p:column>
+				<p:column>
+					#{tbl.payType}
+				</p:column>
+				<p:column>
+					#{tbl.whoWillPay}
+				</p:column>
+				<p:column>
+					#{tbl.dateCreate}
+				</p:column>
+				<p:column>
+					#{tbl.specialConditions}
+				</p:column>
+				<p:column>
+					#{tbl.directTransport}
+				</p:column>
+				<p:column>
+					#{tbl.cargoDescription}
+				</p:column>
+				<p:column>
+					#{tbl.comments}
+				</p:column>
+				<p:column>
+					#{tbl.insurance}
+				</p:column>
+				<p:column>
+					#{tbl.transportation}
+				</p:column>
+			</p:dataTable>
+		</p:layoutUnit>
+	</p:layout>
+</h:body>
+</html>

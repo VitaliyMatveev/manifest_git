@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:composite="http://java.sun.com/jsf/composite">
+<h:head>
+	<title>Добавление манифеста</title>
+	<link href="./css/styles.css" rel="stylesheet" type="text/css"/>
+</h:head>
+<h:body>
+<composite:interface/>
+
+<composite:implementation>
+<h:form id="form">
+	<h:panelGrid title="Создание манифеста" columns="2">
+		<h:outputLabel for = "title" value = "Наименование"/>
+		<p:inputText id="title" value = "#{view_Manifest_Add.title}"/>
+		<p:outputLabel for = "city" value = "Город"/>
+		<p:selectOneMenu value = "#{view_Manifest_Add.cityId}" effect="fade" id ="city">
+			<f:selectItems value = "#{view_Main.cityList}" var = "cityList" itemLabel = "#{cityList.title}" itemValue="#{cityList.id}"/>
+		</p:selectOneMenu>
+		<h:outputLabel for = "date1" value="Дата отправления"/>
+		<p:calendar id="date1" value = "#{view_Manifest_Add.dateRecive}"/>
+		<p:commandButton type="reset" value = "Отмена" label="Отмена" update=":dialog_Manifest"/>
+		<p:commandButton value="Принять" actionListener="#{view_Manifest_Add.addMnf}" update=":manifestForm,:dialog_Manifest"/>
+	</h:panelGrid>
+</h:form>
+</composite:implementation>
+</h:body>
+</html>

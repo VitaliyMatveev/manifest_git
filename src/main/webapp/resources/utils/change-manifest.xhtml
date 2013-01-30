@@ -1,0 +1,40 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:utils="http://java.sun.com/jsf/composite/utils">
+	<h:head></h:head>
+	<h:body>
+		<composite:interface>
+			<composite:attribute name="city"/>
+			<composite:attribute name="listWB"/>
+		</composite:interface>
+		
+		<composite:implementation>
+			<p:dialog id="dialog_changeMnf" modal = "true" widgetVar="changeMnf" dynamic="true" header="Выберите манифест" 
+											resizable="false" appendToBody="true">
+					<h:form>
+					<p:panelGrid>
+						<p:row>
+							<p:column colspan="2">
+								<p:dataTable var="mnf" value="#{view_ManifestChange.manifestList(cc.attrs.city)}" selection="#{view_ManifestChange.manifest}" selectionMode="single" rowKey="#{mnf.id}" >
+									<p:column><b>#{mnf.title}</b></p:column>
+									<p:column>#{mnf.dateRecive}</p:column>
+								</p:dataTable>
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<p:commandButton value="Закрыть" type="reset"/>
+							</p:column>
+							<p:column>
+								<p:commandButton value="Прикрепить" action="#{view_ManifestChange.setManifest(cc.attrs.listWB)}"/>
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+				</h:form>
+			</p:dialog>		
+		</composite:implementation>
+	</h:body>
+</html>

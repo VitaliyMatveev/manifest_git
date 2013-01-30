@@ -1,0 +1,48 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:utils="http://java.sun.com/jsf/composite/utils">
+	<h:head></h:head>
+	<h:body>
+		<composite:interface>
+			<composite:attribute name="manifestId"/>
+			
+		</composite:interface>
+		
+		<composite:implementation>
+				<p:dataTable id="table" var="wb" value = "#{view_Main.getWayBillList(cc.attrs.manifestId)}" rowKey="#{wb.id}" 
+													selection="#{view_Main.selectedWayBill}" selectionMode="single" rows="20">
+													
+					<p:ajax event="rowSelect"/> 
+					<f:facet name="header">Манифест</f:facet>
+					
+					<p:column headerText="Title">
+						#{wb.title}
+					</p:column>
+					
+					<p:column headerText="Адрес">
+						#{wb.address}
+					</p:column>
+					
+					<p:column headerText="Компания">
+						#{wb.company}
+					</p:column>
+					
+					<p:column headerText="Кол-во">
+						#{wb.counts}
+					</p:column>
+					
+					<p:column headerText="Вес">
+						#{wb.weight}
+					</p:column>
+					
+					<p:column headerText="Дата отправки">
+						#{wb.dateRecive}
+					</p:column>
+				</p:dataTable>
+			
+		</composite:implementation>
+	</h:body>
+</html>

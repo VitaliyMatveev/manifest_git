@@ -1,0 +1,2 @@
+2013-01-08 14:54:29,845 [WARN ][main            ][org.hibernate.engine.loading.internal.LoadContexts] -HHH000100: Fail-safe cleanup (collections) : org.hibernate.engine.loading.internal.CollectionLoadContext@74621bf1<rs=org.hibernate.engine.jdbc.internal.proxy.ResultSetProxyHandler@3b474cb5[valid=false]>
+2013-01-08 14:54:29,845 [WARN ][main            ][org.hibernate.engine.loading.internal.CollectionLoadContext] -HHH000160: On CollectionLoadContext#cleanup, localLoadingCollectionKeys contained [1] entries

@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:utils="http://java.sun.com/jsf/composite/utils">
+	<h:head>
+		<link href="./resources/css/styles.css" rel="stylesheet" type="text/css"/>
+	</h:head>
+	<h:body>
+		<h:form id="tblForm">
+			<p:toolbar>
+				<p:toolbarGroup align="left">
+			 		<p:menuButton value="#{view_Unsorted.city}">
+						<p:menuitem value="Ухта" actionListener="#{view_Unsorted.cityChange}" update="@form"/>
+						<p:menuitem value="Усинск" actionListener="#{view_Unsorted.cityChange}" update="@form"/>
+						<p:menuitem value="Воркута" actionListener="#{view_Unsorted.cityChange}" update="@form"/>
+						<p:menuitem value="Инта" actionListener="#{view_Unsorted.cityChange}" update="@form"/>
+						<p:menuitem value="Печора" actionListener="#{view_Unsorted.cityChange}" update="@form"/>
+						<p:menuitem value="Коми" actionListener="#{view_Unsorted.cityChange}" update="@form"/>
+					</p:menuButton>
+					<p:commandButton value="Прикрепить" icon="ui-icon-pin-s" update=":chngMnf:dialog_changeMnf" oncomplete="changeMnf.show()"/>
+					<p:commandButton value="Просмотреть" icon="ui-icon-search" action="#{view_Unsorted.view}"/>
+					<p:commandButton value="Редактировать" icon="ui-icon-pencil"/>
+					<p:commandButton value="Удалить" icon="ui-icon-trash"/>
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:commandButton value = "Закрыть" icon="ui-icon-circle-close"/>
+				</p:toolbarGroup>
+			</p:toolbar>
+			<utils:waybill-unsorted/>
+		</h:form>
+		<utils:change-manifest id="chngMnf" city="#{view_Unsorted.city}" listWB="#{view_Unsorted.selectWBtitle}"/>
+	</h:body>
+</html>

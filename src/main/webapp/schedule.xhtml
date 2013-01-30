@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Календарь</title>
+	<link href="./css/styles.css" rel="stylesheet" type="text/css"/>
+</h:head>
+<h:body>
+	<h:form>
+	<p:tabView id = "tabView">
+		<p:tab id = "aeroTab" title = "Аэротранспорт">
+			<p:schedule value = "#{view_Schedule.model}" widgetVar="schedule" timeFormat="">
+				<p:ajax event = "dateSelect" listener = "#{view_Schedule.onDateSelect}" 
+											update = ":eventForm:eventDialog" oncomplete ="eventDialog.show();"/>
+				<p:ajax event = "eventSelect" listener = "#{view_Schedule.onEventSelect}"
+											update = ":eventForm:eventDialog" oncomplete = "eventDialog.show();"/>
+			</p:schedule>
+		</p:tab>
+	</p:tabView>
+	</h:form>
+	
+	<h:form id = "eventForm">
+	<p:dialog widgetVar = "eventDialog" header = "Окно события" id = "eventDialog" >
+		<h:panelGrid id="eventDetails" columns = "2">	
+			<p:outputLabel for = "type" value ="Тип:"/>
+			<p:selectOneMenu id="type" value = "#{view_Schedule.event.type}" required="true">
+				<f:selectItems value="#{Utilities.listTypeOfTransport}"></f:selectItems>
+			</p:selectOneMenu>
+			
+			<p:outputLabel for = "title" value ="Наименование:"/>
+			<p:inputText id="title" value ="#{view_Schedule.event.title}" required="true"/>
+			
+			<p:outputLabel for="startDate" value = "Отправление:"/>
+			<p:inputMask id ="startDate" value="#{view_Schedule.event.startDate}" required="true" mask="99/99/9999">
+				<f:convertDateTime pattern="dd/MM/yyyy"/>
+			</p:inputMask>	
+			
+			<p:outputLabel for="endDate" value ="Прибытие:"/>
+			<p:inputMask id = "endDate" value ="#{view_Schedule.event.endDate}" mask="99/99/9999">
+				<f:convertDateTime pattern = "dd/MM/yyyy"/>
+			</p:inputMask>
+			 
+			<p:commandButton type  = "reset" value = "Отмена"/>
+			<p:commandButton value = "Сохранить" actionListener = "#{view_Schedule.addEvent}"
+						oncomplete="schedule.update();eventDialog.hide();"/>
+		 
+		</h:panelGrid>
+	</p:dialog>
+	</h:form>
+	
+</h:body>
+</html>
+

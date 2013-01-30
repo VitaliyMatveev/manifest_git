@@ -1,0 +1,21 @@
+.error{
+	color:red;
+	font-size: small;
+	font-weight: bold;
+}
+
+.text {
+
+	font-size: smaller;
+	font-weight: lighter;
+}
+
+
+.ui-datatable-data{
+	font-size: 80%;
+}
+
+.menubar{
+	font-size: 90%;
+	font-weight: bold;
+}

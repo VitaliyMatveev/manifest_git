@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:utils="http://java.sun.com/jsf/composite/utils"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	
+<h:head>
+	<title>Доставочная ведомость</title>
+	<link href="./resources/css/styles.css" rel="stylesheet" type="text/css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+
+<h:body>
+	<h:form id="menuForm" target="_blank">
+	 <p:menubar styleClass="menubar">
+		<p:submenu label="Файл" icon="ui-icon-document">
+			<p:submenu label="Новый" icon="ui-icon-contact">
+				<p:menuitem value = "Путевой лист" actionListener="#{view_RoutingSheet.newRoutingSheet}" update=":mainForm"/>
+			</p:submenu>
+			<p:menuitem value = "Сохранить" actionListener="#{view_RoutingSheet.saveRoutingSheet}" icon="ui-icon-disk"/>
+			<p:submenu label = "Открыть" icon="ui-icon-folder-open" >
+				<p:menuitem value="Открыть" oncomplete="openRoutingSheet.show()"/>
+				<p:separator/>
+				<p:menuitem value="Ведомость № #{view_RoutingSheet.lastRoutingSheet[0].title}" actionListener="#{view_RoutingSheet.openRoutingSheet('0')}" style="font-style:italic;font-size:small" update=":mainForm"/>
+				<p:menuitem value="Ведомость № #{view_RoutingSheet.lastRoutingSheet[1].title}" actionListener="#{view_RoutingSheet.openRoutingSheet('1')}" style="font-style:italic;font-size:small" update=":mainForm"/>
+				<p:menuitem value="Ведомость № #{view_RoutingSheet.lastRoutingSheet[2].title}" actionListener="#{view_RoutingSheet.openRoutingSheet('2')}" style="font-style:italic;font-size:small" update=":mainForm"/>
+				<p:menuitem value="Ведомость № #{view_RoutingSheet.lastRoutingSheet[3].title}" actionListener="#{view_RoutingSheet.openRoutingSheet('3')}" style="font-style:italic;font-size:small" update=":mainForm"/>
+				<p:menuitem value="Ведомость № #{view_RoutingSheet.lastRoutingSheet[4].title}" actionListener="#{view_RoutingSheet.openRoutingSheet('4')}" style="font-style:italic;font-size:small" update=":mainForm"/>
+			</p:submenu>
+			<p:menuitem value="Печать" action="#{view_RoutingSheet.doExport}"  ajax="false" update=":mainForm:mainGrowl"/>
+			<p:separator/>
+			<p:menuitem value = "Закрыть" icon="ui-icon-closethick"/>
+			
+			
+		</p:submenu>
+		<p:submenu label="Справочники" icon="ui-icon-bookmark">
+			<p:menuitem value="Курьеры" oncomplete="addCourier.show();"/>
+		</p:submenu>
+		<p:submenu label="Редактировать" icon="ui-icon-bookmark">
+			<p:menuitem value="Добавить" actionListener="#{view_RoutingSheet.prepere}"  oncomplete="addWayBill.show()" update=":dialogWBadd:dialog_WB_add"/>
+			<p:menuitem value="Удалить" actionListener="#{view_RoutingSheet.doRemove}" update=":mainForm:tblRs,:mainForm:mainGrowl"/>
+			<p:menuitem value="Поднять" actionListener="#{view_RoutingSheet.upPos}" update=":mainForm:tblRs,:mainForm:mainGrowl"/>
+		</p:submenu>
+		<f:facet name="options">
+                 <p:commandButton value="Up" actionListener="#{view_RoutingSheet.changePos('up')}" update=":mainForm:tblRs,:mainForm:mainGrowl" icon="inbox"/>
+                 <p:commandButton value="Down" actionListener="#{view_RoutingSheet.changePos('down')}" update=":mainForm:tblRs,:mainForm:mainGrowl"/>
+  		</f:facet>
+	</p:menubar>
+	</h:form>
+	<h:form id="mainForm">
+	<p:growl id="mainGrowl" autoUpdate="true" showDetail="false" />
+	<center><h3>Доставочная ведомость</h3></center>
+	<p:toolbar style="height:48px;background-color:white;border:hidden">
+		<p:toolbarGroup align="left"  style="height:48px">
+		
+			<p:outputLabel for="wbNmbr" value="Номер накладной"></p:outputLabel>
+		 	<p:inputText id="wbNmbr" value="#{view_RoutingSheet.numberWB}" size="12"  style="margin:8px">
+		 		<p:ajax event="change" listener="#{view_RoutingSheet.doAdd}" update="@this,:mainForm:tblRs,:mainForm:mainGrowl"/>
+				<p:focus/>
+		 	</p:inputText>
+		
+		</p:toolbarGroup>
+		<p:toolbarGroup>
+			<p:selectOneMenu id="courier" value="#{view_RoutingSheet.courierId}" style="margin-top:8px">
+					<f:selectItem itemLabel="Выберите курьера" itemValue=""/>
+					<f:selectItems value="#{view_RoutingSheet.courierList}" var="list" itemLabel="#{list.fio}" itemValue="#{list.id}"></f:selectItems>
+					<p:ajax value="change"/>
+			</p:selectOneMenu>
+		</p:toolbarGroup>
+		<p:toolbarGroup align = "right"  style="height:48px"> 
+			<p:calendar showButtonPanel="true" navigator="true" value="#{view_RoutingSheet.date}" style="margin-top:8px">
+				<p:ajax event="dateSelect"/>
+			</p:calendar>
+		</p:toolbarGroup>
+	</p:toolbar>
+	
+	<p:dataTable id="tblRs" var="table" value="#{view_RoutingSheet.rs.wayBillList}" scrollHeight="500" paginator="true" rows="15"
+										paginatorPosition="bottom" rowIndexVar="rowIndex" rowKey="#{table.id}" selection="#{view_RoutingSheet.selectWB}" selectionMode="single">
+		<p:ajax event="rowSelect"/>
+		<p:column headerText="№" width="10">
+			#{rowIndex+1}
+		</p:column>
+		<p:column headerText="Накладная №" width="120">
+			<b>#{table.title}</b>
+		</p:column>
+		<p:column headerText="Адрес доставки" width="300">
+			#{table.recipient.address}
+		</p:column>
+		<p:column headerText="Мест" width="50">
+			#{table.counts}
+		</p:column>
+		<p:column headerText="Вес" width="50">
+			#{table.weight}
+		</p:column>
+	</p:dataTable>
+	<p:lightBox id = "lb"/>
+	</h:form>
+<h:form id="dialog_form">
+	<p:dialog id="dialog_Courier" modal = "true" widgetVar="addCourier" dynamic="true" header="Список курьеров" resizable="fale">
+		<p:inputText id="fio" value="#{view_Dictionary.fio}" label="ФИО: "/>
+		<p:commandButton value="Добавить" action="#{view_Dictionary.add}" update="dialog_form:courierTbl,dialog_form:fio"/>
+		<p:commandButton value="Удалить" action="#{view_Dictionary.del}" update="dialog_form:courierTbl"/>
+		<p:commandButton value="Закрыть" update=":mainForm:courier" oncomplete="addCourier.hide()"/>
+		<p:layoutUnit position="center">
+			<p:dataTable id="courierTbl" value="#{view_Dictionary.data}" var="tbl" rowKey="#{tbl.id}" selection="#{view_Dictionary.selected}" selectionMode="single">
+				<p:column headerText="ФИО">
+					#{tbl.fio}
+				</p:column>
+				<p:column headerText="Телефон">
+					#{tbl.phone}
+				</p:column>
+			</p:dataTable>
+		</p:layoutUnit>
+	</p:dialog>
+</h:form>
+
+<h:form id="openRS_form">
+	<p:dialog id="dialog_OpernRS" widgetVar="openRoutingSheet" header="Введите номер ДВ" resizable = "false">
+	
+		<p:inputText id="inptRSnmbr" widgetVar="inputrs" size="20"/>
+		<br/>${header["host"]}<br/>
+		<center>
+			<p:commandButton value = "Открыть" actionListener="#{view_RoutingSheet.openRoutingSheet(inptRsnmbr.value)}" style="font-style:italic;font-size:small" update=":mainForm"/>
+		</center>
+	</p:dialog>
+</h:form>
+
+<utils:waybill-add id ="dialogWBadd" routingsheet="#{view_RoutingSheet.rs.id}"/>
+</h:body>
+</html>

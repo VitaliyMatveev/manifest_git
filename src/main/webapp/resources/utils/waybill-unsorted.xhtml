@@ -1,0 +1,85 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:utils="http://java.sun.com/jsf/composite/utils">
+	<h:head></h:head>
+	<h:body>
+		<composite:interface>
+			<composite:attribute name="cityId"/>
+		</composite:interface>
+		
+		<composite:implementation>
+			<p:dataTable var="tbl" id="table" value="#{view_Unsorted.data}" paginator="true" rows="10" paginatorPosition="bottom"
+										scrollable="true" scrollHeight="470" scrollWidth="1350" selection="#{view_Unsorted.selectWB}"
+										rowKey="#{tbl.title}" selectionMode="multiple">
+				<p:column width="120" sortBy="#{tbl.title}" headerText="Номер">
+					<b>#{tbl.title}</b>
+				</p:column>
+				<p:column width="150" sortBy="#{tbl.sender.company}"  headerText="Отправитель">
+					#{tbl.sender.company}
+				</p:column>
+				<!-- <p:column width="100"  headerText="Конт.лицо">
+					#{tbl.sender_fio}
+				</p:column>
+				<p:column width="100"  headerText="Телефон">
+					#{tbl.sender.phone}
+				</p:column>
+				<p:column width="150" sortBy="#{tbl.sender.address}"  headerText="Адрес (Город)">
+					<b>#{tbl.sender.city}</b>
+					#{tbl.sender.address}
+				</p:column> -->
+				<p:column width="150" sortBy="#{tbl.recipient.company}"  headerText="Получатель">
+					#{tbl.recipient.company}
+				</p:column>
+				<p:column width="100"  headerText="Конт.лицо">
+					#{tbl.recipient_fio}
+				</p:column>
+				<p:column width="100"  headerText="Телефон">
+					#{tbl.recipient.phone}
+				</p:column>
+				<p:column width="150" sortBy="#{tbl.recipient.address}"  headerText="Адрес (Город)">
+					<b>#{tbl.recipient.city}</b>
+					#{tbl.recipient.address}
+				</p:column>
+				<p:column width="120"  headerText="Описание">
+					#{tbl.cargoDescription}
+				</p:column>
+				<p:column width="50"  headerText="Вес">
+					#{tbl.weight}
+				</p:column>
+				<p:column width="60"  headerText="Объём">
+					#{tbl.volume}
+				</p:column>
+				<p:column width="50"  headerText="Кол-во">
+					#{tbl.counts}
+				</p:column>
+				<p:column width="90"  headerText="Перевозка">
+					#{tbl.transportation}
+				</p:column>
+				<p:column width="100"  headerText="Страховка">
+					#{tbl.insurance}
+				</p:column>
+				<p:column width="100" sortBy="#{tbl.payType}"  headerText="Тип оплаты">
+					#{tbl.payType}
+				</p:column>
+				<p:column width="90" sortBy="#{tbl.whoWillPay}"  headerText="Платильщик">
+					#{tbl.whoWillPay}
+				</p:column>
+				<p:column width="80" sortBy="#{tbl.dateCreate}"  headerText="Дата">
+					#{tbl.dateCreate}
+				</p:column>
+				<p:column width="100" sortBy="#{tbl.specialConditions}"  headerText="Спец.условия">
+					#{tbl.specialConditions}
+				</p:column>
+				<p:column width="100" sortBy="#{tbl.directTransport}" headerText="Прямая">
+					#{tbl.directTransport}
+				</p:column>
+				<p:column width="130" headerText="Комментарий">
+					#{tbl.comments}
+				</p:column>
+			</p:dataTable>
+		</composite:implementation>
+	</h:body>
+</html>

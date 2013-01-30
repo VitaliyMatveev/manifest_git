@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:utils="http://java.sun.com/jsf/composite/utils">
+	
+<h:head>
+	<title>Добавление накладной</title>
+	<link href="./css/styles.css" rel="stylesheet" type="text/css"/>
+</h:head>
+<h:body>
+	<f:view contentType="text/html"></f:view>
+	<p:layout fullPage="true">
+		<p:layoutUnit position="south" size="50">
+			<h:outputText value = "south"/>
+		</p:layoutUnit>
+		<p:layoutUnit position="east" size ="200">
+			<h:form>
+			<p:growl id="msg"/>
+				<p:commandButton type="submit" value="Очистить" action="#{view_Main.install}" update=":manifestForm"></p:commandButton>
+				<br/>
+				<h:outputText value="Добавить:"/>
+				<br/>
+				<p:commandButton value="Манифест" update=":dialog_Manifest" oncomplete="addManifest.show();"/>
+				<br/>
+				<p:commandButton value = "Накладную" update=":wb_utils:dialog_WB_add" oncomplete="addWayBill.show()" action="#{view_Main.onWayBillAdd}">
+				</p:commandButton>
+				<p:commandButton value = "Тест" actionListener="#{view_Main.onTest}"></p:commandButton>
+			</h:form>
+		</p:layoutUnit>
+		<p:layoutUnit position="center">
+		<h:form id ="manifestForm">
+		<p:tabView id="cityTab"  activeIndex="#{view_Main.activeCityTab}" dynamic="true" cache="false">
+			<p:ajax event="tabChange"/> 
+			<p:tab title="Ухта" >
+					<p:tabView value = "#{view_Main.actualManifestList('Ухта')}" var = "manifest" orientation="bottom" activeIndex="#{view_Main.activeManifestTab[0]}" >
+						<p:ajax event="tabChange"/>	
+						<p:tab title = "#{manifest.title}" id="mnfTab">
+							<p:contextMenu for="table_form:table_utils:table" id="table_menu">
+								<p:menuitem value ="Просмотреть" update=":wb_view_utils:dialog_WB_view" icon="ui-icon-search" oncomplete="viewWayBill.show()"/>
+								<p:menuitem value = "Удалить" actionListener="#{view_Main.deleteWayBill}" icon="ui-icon-close" update=":manifestForm"/>
+							</p:contextMenu>
+							<h:form id= "table_form">
+								<utils:manifestTable manifestId="#{manifest.id}" id ="table_utils"/>
+							</h:form>
+						</p:tab>
+					</p:tabView>
+			</p:tab>
+			
+			<p:tab title="Воркута" >
+					<p:tabView  value = "#{view_Main.actualManifestList('Воркута')}" var = "manifest" orientation="bottom" activeIndex="#{view_Main.activeManifestTab[1]}">
+						<p:ajax event="tabChange"/> 
+						<p:tab title = "#{manifest.title}" id="mnfTab">
+							<p:contextMenu for="table_form:table_utils:table" id="table_menu">
+								<p:menuitem value ="Просмотреть" icon="ui-icon-search" oncomplete="viewWayBill.show()"/>
+								<p:menuitem value = "Удалить" actionListener="#{view_Main.deleteWayBill}" icon="ui-icon-close" update=":manifestForm"/>
+							</p:contextMenu>
+							<h:form id= "table_form">
+								<utils:manifestTable manifestId="#{manifest.id}" id ="table_utils"/>
+							</h:form>
+						</p:tab>
+					</p:tabView>
+			</p:tab>
+		</p:tabView>
+		</h:form>
+		</p:layoutUnit>
+	</p:layout>
+	
+	<p:dialog id="dialog_Manifest" modal = "true" widgetVar="addManifest" dynamic="true" header="Добавление манифеста" 
+										resizable="true">
+		<utils:manifest-add/>
+	</p:dialog>
+
+	<utils:waybill-add cityId="#{view_Main.cityId}" manifestId="#{view_Main.manifestId}" id="wb_utils"/>
+	
+	<utils:waybill-view wayBillToView="#{view_Main.selectedWayBill}" id="wb_view_utils"/>
+	
+</h:body>
+</html>

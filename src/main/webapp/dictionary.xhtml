@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:utils="http://java.sun.com/jsf/composite/utils">
+	
+<h:head>
+	<title>Доставочная ведомость</title>
+	<link href="./resources/css/styles.css" rel="stylesheet" type="text/css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+<h:body>
+	<h:form>
+		<p:layout>
+			<p:layoutUnit position="east" size = "200">
+				<p:inputText value="#{view_Dictionary.fio}" label="ФИО: "/>
+				<p:commandButton value="Добавить" action="#{view_Dictionary.add}"/>
+				<p:commandButton value="Удалить" action="#{view_Dictionary.del}"/>
+			</p:layoutUnit>
+			<p:layoutUnit position="center">
+				<p:dataTable value="#{view_Dictionary.data}" var="tbl" rowKey="#{tbl.id}" selection="#{view_Dictionary.selected}" selectionMode="single">
+					<p:column headerText="ФИО">
+						#{tbl.fio}
+					</p:column>
+					<p:column headerText="Телефон">
+						#{tbl.phone}
+					</p:column>
+				</p:dataTable>
+			</p:layoutUnit>
+		</p:layout>
+	</h:form>
+</h:body>
+</html>
